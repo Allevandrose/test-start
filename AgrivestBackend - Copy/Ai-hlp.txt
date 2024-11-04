@@ -1,0 +1,235 @@
+Below is my farmer migration 'use strict';
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('farmer', {
+      farmer_id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
+      farmer_name: {
+        type: Sequelize.STRING(50),
+        allowNull: false
+      },
+      farmer_phone: {
+        type: Sequelize.STRING(15),
+        allowNull: false
+      },
+      farmer_email: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        unique: true
+      },
+      farmer_location: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      farmer_password: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+      }
+    });
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('farmer');
+  }
+};
+
+do this for the table models below 
+
+Admin
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database'); // Adjust the path as necessary
+
+const Admin = sequelize.define('Admin', {
+    adminname: {
+        type: Sequelize.STRING(50),
+        allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
+        unique: true
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+}, {
+    tableName: 'Admin',
+    timestamps: true,
+  });
+
+module.exports = Admin; // Ensure this is correct
+
+
+commodity
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database'); // Adjust the path as necessary
+
+const Commodity = sequelize.define('Commodity', {
+  commodity_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false,
+  },
+  commodity_name: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    unique: true,
+  },
+  commodity_category: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+  commodity_origin: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+  commodity_price_per_kg: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  commodity_sale_price: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  commodity_weight_available: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+}, {
+  tableName: 'Commodity',
+  timestamps: true,
+});
+
+module.exports = Commodity;
+
+
+consumer
+
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database'); // Adjust the path as necessary
+
+const Consumer = sequelize.define('Consumer', {
+  consumer_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false,
+  },
+  consumer_name: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+  consumer_phone: {
+    type: DataTypes.INTEGER(15),
+    allowNull: false,
+  },
+  consumer_email: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+    unique: true,
+  },
+  consumer_password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+}, {
+  tableName: 'Consumer',
+  timestamps: true,
+});
+
+module.exports = Consumer;
+
+
+review
+
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database'); // Adjust the path as necessary
+
+const Review = sequelize.define('Review', {
+  review_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false,
+  },
+  review_name: {
+    type: DataTypes.STRING(50),
+    allowNull: false,
+  },
+  review_comment: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+}, {
+  tableName: 'Review',
+  timestamps: true,
+});
+
+module.exports = Review;
+
+
+sales
+
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/database'); // Adjust the path as necessary
+
+const Sales = sequelize.define('Sales', {
+  sales_id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false,
+  },
+  sales_condition: {
+    type: DataTypes.ENUM('pending', 'completed', 're-fund'),
+    allowNull: false,
+  },
+  sales_buy: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  sales_sell: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  sales_profit: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  sales_weight: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  commodity_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    references: {
+      model: 'commodity', // Ensure this matches the Commodity table name
+      key: 'commodity_name',
+    },
+  },
+}, {
+  tableName: 'Sales',
+  timestamps: true,
+});
+
+module.exports = Sales;
+
+use the format above
